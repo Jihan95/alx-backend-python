@@ -19,6 +19,7 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
         for task in tasks:
             delays.append(await task)
     except Exception as e:
+        delays.append(None)
         for task in tasks:
             task.cancel()
     return delays
