@@ -53,15 +53,14 @@ class TestGetJson(unittest.TestCase):
     """
     class to test get_json method in utils file
     """
-    @patch('utils.requests.get')
-    def test_get_json(self, mock_get):
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False})
+        ])
+    def test_get_json(self, url, payload):
         """
         test get json without actual requests.get call
         """
-        parameters = [
-                ("http://example.com", {"payload": True}),
-                ("http://holberton.io", {"payload": False})
-                ]
-        for url, payload in parameters:
+        with patch('utils.requests.get') as mock_get:
             mock_get.return_value.json.return_value = payload
             self.assertEqual(get_json(url), payload)
