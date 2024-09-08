@@ -24,11 +24,11 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a", "b"), 2),
         ({"a": {"b": 2}}, ("a",), {"b": 2})
         ])
-    def test_access_nested_map(self,
+    def test_access_nested_map(
+            self,
             nested_map: Mapping,
             path: Sequence,
-            expected: Any
-            ) -> None:
+            expected: Any) -> None:
         """test access nested map function"""
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
@@ -36,10 +36,10 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ("a",)),
         ({"a": 1}, ("a", "b"))
         ])
-    def test_access_nested_map_exception(self,
+    def test_access_nested_map_exception(
+            self,
             nested_map: Mapping,
-            path: Sequence
-            ) -> None:
+            path: Sequence) -> None:
         """
         test access nested map function with invalid input
         """
@@ -83,7 +83,7 @@ class TestMemoize(unittest.TestCase):
                 memoized method
                 """
                 return 42
-            
+
             @memoize
             def a_property(self):
                 """
