@@ -49,20 +49,23 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         method to unit-test GithubOrgClient.public_repos
         """
+        mock_get_json.return_value = [
+                {"name": "truth", "license": {"key": "apache-2.0"}},
+                {"name": "ruby-openid-apps-discovery"},
+                {"name": "autoparse", "license": {"key": "apache-2.0"}}
+                ]
         with patch.object(
                 GithubOrgClient,
                 '_public_repos_url',
                 new_callable=PropertyMock
                 ) as mock_prop:
-            mock_prop.return_value = "https://api.github.com/orgs/google/repos"
-            mock_get_json.return_value = [
-                {"name": "truth", "license": {"key": "apache-2.0"}},
-                {"name": "ruby-openid-apps-discovery"},
-                {"name": "autoparse", "license": {"key": "apache-2.0"}}
-                ]
+            url = "https://api.github.com/orgs/google/repos"
+            mock_prop.return_value = url
             client = GithubOrgClient("google")
             pub_repos = client.public_repos(license="apache-2.0")
             self.assertEqual(pub_repos, ["truth", "autoparse"])
+            mock_prop.assert_called_once()
+            mock_get_json.assert_called_once_with(url)
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
