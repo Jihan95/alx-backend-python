@@ -11,6 +11,8 @@ from utils import (
         memoize
         )
 from client import GithubOrgClient
+from fixtures import TEST_PAYLOAD
+from parameterized import parameterized_class
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -78,3 +80,20 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("facebook")
         result = client.has_license(repo, license_key)
         self.assertEqual(result, expected)
+
+
+@parameterized_class(
+        ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+        TEST_PAYLOAD)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """
+    class to to test the GithubOrgClient.public_repos method in
+    an integration test
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        setUp Method
+        """
+        pass
