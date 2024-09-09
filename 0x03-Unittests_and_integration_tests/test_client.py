@@ -44,6 +44,26 @@ class TestGithubOrgClient(unittest.TestCase):
             client = GithubOrgClient("google")
             self.assertEqual(client._public_repos_url, response["repos_url"])
 
+    @patch('client.get_json')
+    def test_public_repo(self, mock_get_json):
+        """
+        method to unit-test GithubOrgClient.public_repos
+        """
+        with patch.object(
+                GithubOrgClient,
+                '_public_repos_url',
+                new_callable=PropertyMock
+                ) as mock_prop:
+            mock_prop.return_value = "https://api.github.com/orgs/google/repos"
+            mock_get_json.return_value = [
+                {"name": "truth", "license": {"key": "apache-2.0"}},
+                {"name": "ruby-openid-apps-discovery"},
+                {"name": "autoparse", "license": {"key": "apache-2.0"}}
+                ]
+            client = GithubOrgClient("google")
+            pub_repos = client.public_repos(license="apache-2.0")
+            self.assertEqual(pub_repos, ["truth", "autoparse"])
+
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False)
