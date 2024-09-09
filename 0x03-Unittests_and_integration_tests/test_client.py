@@ -43,3 +43,15 @@ class TestGithubOrgClient(unittest.TestCase):
             mock_org.return_value = response
             client = GithubOrgClient("google")
             self.assertEqual(client._public_repos_url, response["repos_url"])
+
+    @parameterized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False)
+        ])
+    def test_has_license(self, repo, license_key, expected):
+        """
+        method to unit-test GithubOrgClient.has_license
+        """
+        client = GithubOrgClient("facebook")
+        result = client.has_license(repo, license_key)
+        self.assertEqual(result, expected)
