@@ -97,3 +97,10 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         setUp Method
         """
         pass
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        tearDown Method
+        """
+        pass
