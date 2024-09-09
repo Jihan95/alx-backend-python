@@ -45,7 +45,7 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(client._public_repos_url, response["repos_url"])
 
     @patch('client.get_json')
-    def test_public_repo(self, mock_get_json):
+    def test_public_repos(self, mock_get_json):
         """
         method to unit-test GithubOrgClient.public_repos
         """
